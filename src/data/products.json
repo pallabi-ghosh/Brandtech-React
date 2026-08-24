@@ -1,0 +1,148 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "brand": "Vero Moda",
+      "price": 299.95,
+      "stock": 10,
+      "color": "",
+      "size": ["XS", "S", "L", "M"],
+      "name": {
+        "dk": "CABLE O-NECK KNITTED PULLOVER",
+        "en": ""
+      },
+      "images": [
+        "https://vm-images-test.global.ssl.fastly.net/10183605/2576554/003/veromoda-vmnostrikketcardigan-graa.jpg?v=93d0e57daca02e5323b0a94fdcd8abb1",
+        "https://vm-images-test.global.ssl.fastly.net/10183605/2576554/004/veromoda-vmnostrikketcardigan-graa.jpg?v=50e9f50bd756a96b5f13aaeef3f26544",
+        "https://vm-images-test.global.ssl.fastly.net/10183605/2576554/001/veromoda-vmnostrikketcardigan-graa.jpg?v=07b9009b6b8acd18e9a661ac516b74c8",
+        "https://vm-images-test.global.ssl.fastly.net/10183605/2576554/002/veromoda-vmnostrikketcardigan-graa.jpg?v=597d08b7e57b7d640f8c4e16e0c67fc9",
+        "https://vm-images-test.global.ssl.fastly.net/10183605/2576554/005/veromoda-vmnostrikketcardigan-graa.jpg?v=1734aa219fbf3064e4b8bf6a57d53bcf",
+        "https://vm-images-test.global.ssl.fastly.net/10183605/2576554/006/veromoda-vmnostrikketcardigan-graa.jpg?v=5ef4fddc1083a31a9bbf8ede00b7281f"
+      ],
+      "categories": ["adults", "women", "women_newin", "women_clothes", "women_last_week_sales"]
+    },
+    {
+      "id": 2,
+      "brand": "Vero Moda",
+      "price": 259.99,
+      "stock": 5,
+      "color": "black",
+      "size": ["XS", "S"],
+      "name": {
+        "dk": "O-NECK MINI DRESS",
+        "en": ""
+      },
+      "images": [
+        "https://vm-images-test.global.ssl.fastly.net/10305319/4435125/003/veromoda-vmmerlekortkjole-roed.jpg?v=e22cde4b3e9d94256a6dd5b74ac7fd94",
+        "https://vm-images-test.global.ssl.fastly.net/10305319/4435125/004/veromoda-vmmerlekortkjole-roed.jpg?v=da6899de35dbc30c541b8085d0311d7a",
+        "https://vm-images-test.global.ssl.fastly.net/10305319/4435125/001/veromoda-vmmerlekortkjole-roed.jpg?v=fdadf6ae1fd5f22dd8c5eaf35d675aae"
+      ],
+      "categories": ["adults", "women", "women_newin", "women_clothes"]
+    },
+    {
+      "id": 3,
+      "brand": "Vero Moda",
+      "price": 549.95,
+      "stock": 7,
+      "color": "Green",
+      "size": ["XS", "S", "L"],
+      "name": {
+        "dk": "WRAP JAKKE",
+        "en": "WRAP JACKET"
+      },
+      "images": [
+        "https://vm-images-test.global.ssl.fastly.net/10252112/3682272/003/veromoda-vmhaylefrakke-sort.jpg?v=2cfa28ba25b667a7b1fe7199d498dd03",
+        "https://vm-images-test.global.ssl.fastly.net/10252112/3682272/004/veromoda-vmhaylefrakke-sort.jpg?v=8aae0820407dcefd8c95eafd4b11bdce",
+        "https://vm-images-test.global.ssl.fastly.net/10252112/3682272/001/veromoda-vmhaylefrakke-sort.jpg?v=e4d166b4a62627a4534ddbfa7dc6d2ed"
+      ],
+      "categories": ["adults", "women", "women_newin", "women_clothes", "women_trend"]
+    },
+    {
+      "id": 6,
+      "brand": "Jack & Jones",
+      "price": 399.95,
+      "stock": 1000,
+      "color": "Blue",
+      "size": [26, 27, 28, 29, 30, 32, 33, 34, 36, 38],
+      "name": {
+        "dk": "GLENN ORIGINAL GE 006 INDIGO KNIT SLIM FIT JEANS",
+        "en": "GLENN ORIGINAL GE 006 INDIGO KNIT SLIM FIT JEANS"
+      },
+      "images": [
+        "https://jj-images-test.global.ssl.fastly.net/12243592/4313146/003/jackjones-jjiglennjjoriginalsq223slimfitjeans-blaa.jpg?v=e7f656d5875e513952d08b3482ab707e",
+        "https://jj-images-test.global.ssl.fastly.net/12243592/4313146/004/jackjones-jjiglennjjoriginalsq223slimfitjeans-blaa.jpg?v=379ad102c12ae59f368b0d045033b5cf",
+        "https://jj-images-test.global.ssl.fastly.net/12243592/4313146/001/jackjones-jjiglennjjoriginalsq223slimfitjeans-blaa.png?v=6b939392a07d2ef8c387c6d68b3a0b01"
+      ],
+      "categories": ["adults", "men", "men_newin", "men_clothes", "men_jeans"]
+    },
+    {
+      "id": 7,
+      "brand": "Jack & Jones",
+      "price": 599.95,
+      "stock": 1000,
+      "color": "Blue / Grey",
+      "size": [28, 29, 30, 32, 34, 36, 38],
+      "name": {
+        "en": "MIKE ORIGINAL JOS 471 COMFORT FIT JEANS"
+      },
+      "images": [
+        "https://jj-images-test.global.ssl.fastly.net/12217978/3994932/003/jackjones-jjiglennjjfoxbl655slimfitjeans-sort.jpg?v=2cef6f9f67dd7c264c3acebe822eeeb9",
+        "https://jj-images-test.global.ssl.fastly.net/12217978/3994932/004/jackjones-jjiglennjjfoxbl655slimfitjeans-sort.jpg?v=0d03c45e4541b5b7fdc7ef5fcf64c864"
+      ],
+      "categories": ["adults", "men", "men_newin", "men_clothes", "men_jeans"]
+    },
+    {
+      "id": 9,
+      "brand": "Jack & Jones",
+      "price": 299.95,
+      "stock": 7,
+      "color": "Dark Grey",
+      "size": ["XS", "S", "L", "XL", "XXL", "3XL"],
+      "name": {
+        "dk": "BUTTON-DOWN TWILLVÆVET SKJORTE",
+        "en": "BUTTON-DOWN TWILL-WEAVE SHIRT"
+      },
+      "images": [
+        "https://jj-images-test.global.ssl.fastly.net/12264490/4595889/003/jackjones-jjiclarkjjoriginalam413regularfitjeans-graa.jpg?v=1ac6187db8d3fc280d72720eedd16766",
+        "https://jj-images-test.global.ssl.fastly.net/12264490/4595889/004/jackjones-jjiclarkjjoriginalam413regularfitjeans-graa.jpg?v=61e75eb771b29dcf434fc93f2e7f8767",
+        "https://jj-images-test.global.ssl.fastly.net/12264490/4595889/001/jackjones-jjiclarkjjoriginalam413regularfitjeans-graa.png?v=2bd6da89dc311374149e6c45fc356009"
+      ],
+      "categories": ["adults", "men", "men_newin", "men_clothes", "men_shirts"]
+    },
+    {
+      "id": 10,
+      "brand": "Jack & Jones",
+      "price": 839.96,
+      "stock": 10,
+      "color": "Black",
+      "size": ["XS", "S", "L", "XL"],
+      "name": {
+        "dk": "ULD JAKKE",
+        "en": "WOOL JACKET"
+      },
+      "images": [
+        "https://jj-images-test.global.ssl.fastly.net/12246401/4372162/003/jackjones-jjichrisjjcooperam900relaxedfitjeans-blaa.jpg?v=4ed667ed300ce89225a5fd729b38ab43",
+        "https://jj-images-test.global.ssl.fastly.net/12246401/4372162/004/jackjones-jjichrisjjcooperam900relaxedfitjeans-blaa.jpg?v=7f28255858488f4c70dbcd7113bd1158"
+      ],
+      "categories": ["adults", "men", "men_newin", "men_clothes", "men_jackets"]
+    },
+    {
+      "id": 15,
+      "brand": "Jack & Jones",
+      "price": 149.95,
+      "stock": 1000,
+      "color": "Green",
+      "size": ["XS", "S", "M", "L", "XL", "XXL"],
+      "name": {
+        "en": "ZIPPED CARDIGAN",
+        "dk": "ØKOLOGISK BOMULD T-SHIRT"
+      },
+      "images": [
+        "https://jj-images-test.global.ssl.fastly.net/12204926/4401530/003/jackjones-logohaettetroejemedlynlaas-groen.jpg?v=8d63dc6edd1d59ad6362620cf3c8e3e3",
+        "https://jj-images-test.global.ssl.fastly.net/12204926/4401530/004/jackjones-logohaettetroejemedlynlaas-groen.jpg?v=281da2923f9abdc75492733706fc9f53",
+        "https://jj-images-test.global.ssl.fastly.net/12204926/4401530/001/jackjones-logohaettetroejemedlynlaas-groen.jpg?v=5e1ecadbe39e223f4ff88b498a5b8129"
+      ],
+      "categories": ["adults", "men", "men_clothes", "men_tshirts"]
+    }
+  ]
+}
