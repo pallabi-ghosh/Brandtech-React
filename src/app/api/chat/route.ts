@@ -1,72 +1,77 @@
 import { NextRequest } from 'next/server';
-import path from 'path';
-import { LocalIndex } from 'vectra';
-import ollama from 'ollama';
+import { TOOLS, callTool } from '@/lib/agentTools';
 
-const INDEX_DIR = path.join(process.cwd(), 'rag_index');
+const SYSTEM_PROMPT = `You are a helpful shopping assistant for the Brandtech fashion store.
+You have access to tools to search the FAQ, search products, and check stock.
+Always call the appropriate tool — never answer product questions from memory.
 
-async function retrieveContext(query: string): Promise<string> {
-  try {
-    const index = new LocalIndex(INDEX_DIR);
-    const embRes = await ollama.embed({ model: 'nomic-embed-text', input: query });
-    const vector = embRes.embeddings[0];
-    const results = await index.queryItems(vector, query, 4, {});
-    if (!results.length) return '';
-    return results.map((r: any) => r.item.metadata.text).join('\n\n');
-  } catch (e) {
-    console.error('RAG retrieval failed:', e);
-    return '';
-  }
-}
+CRITICAL RULES:
+- Only show products that the tool actually returns. Never invent products.
+- When a tool result includes "Image: <url>", display it as: ![product name](url)
+- When a tool result includes "Link: <url>", use that EXACT url as: [View product](url)
+- NEVER construct or guess URLs. Only use links from tool results.
+- Be concise and friendly. Mention prices in DKK.`;
 
 export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
-    const userQuery = messages.at(-1)?.content ?? '';
 
-    const context = await retrieveContext(userQuery);
-
-    const systemPrompt = `You are a helpful shopping assistant for the Brandtech fashion store.
-Answer the customer's question using the FAQ knowledge below.
-If the answer isn't in the FAQ, use your general knowledge but stay relevant to fashion/shopping.
-Be concise and friendly.
-
-${context ? `Relevant FAQ:\n${context}` : ''}`;
-
-    const response = await fetch('http://localhost:11434/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'llama3.2',
-        stream: true,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          ...messages,
-        ],
-      }),
-    });
-
-    if (!response.ok || !response.body) {
-      throw new Error(`Ollama error: ${response.status}`);
-    }
+    // The harness loop — keeps running until the model stops calling tools
+    const conversationMessages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...messages,
+    ];
 
     const encoder = new TextEncoder();
     const readable = new ReadableStream({
       async start(controller) {
-        const reader = response.body!.getReader();
-        const decoder = new TextDecoder();
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value);
-          for (const line of chunk.split('\n').filter(Boolean)) {
-            try {
-              const json = JSON.parse(line);
-              const text = json.message?.content ?? '';
-              if (text) controller.enqueue(encoder.encode(text));
-            } catch {}
+        let iterations = 0;
+        const MAX_ITERATIONS = 5; // safety cap
+
+        while (iterations < MAX_ITERATIONS) {
+          iterations++;
+
+          // Call Ollama (non-streaming while in tool loop)
+          const res = await fetch('http://localhost:11434/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: 'llama3.2',
+              stream: false,
+              tools: TOOLS,
+              messages: conversationMessages,
+            }),
+          });
+
+          if (!res.ok) throw new Error(`Ollama error: ${res.status}`);
+          const data = await res.json();
+          const assistantMsg = data.message;
+
+          // No tool calls → final answer, stream it out
+          if (!assistantMsg.tool_calls || assistantMsg.tool_calls.length === 0) {
+            const text = assistantMsg.content ?? '';
+            controller.enqueue(encoder.encode(text));
+            break;
           }
+
+          // Execute each tool call
+          conversationMessages.push(assistantMsg);
+          for (const tc of assistantMsg.tool_calls) {
+            const toolName = tc.function.name;
+            const toolArgs = tc.function.arguments ?? {};
+            console.log(`[Agent] calling tool: ${toolName}`, toolArgs);
+
+            const result = await callTool(toolName, toolArgs);
+            console.log(`[Agent] tool result:`, result);
+
+            conversationMessages.push({
+              role: 'tool',
+              content: result,
+            });
+          }
+          // Loop again — model will now use the tool results to form its answer
         }
+
         controller.close();
       },
     });
@@ -75,7 +80,7 @@ ${context ? `Relevant FAQ:\n${context}` : ''}`;
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   } catch (err) {
-    console.error('Chat API error:', err);
+    console.error('Agent API error:', err);
     return new Response(JSON.stringify({ error: 'Chat service failed' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

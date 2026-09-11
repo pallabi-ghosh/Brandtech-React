@@ -1,4 +1,5 @@
 "use client";
+import ReactMarkdown from "react-markdown";
 import { useState, useRef, useEffect } from "react";
 
 interface Message {
@@ -41,17 +42,23 @@ export default function ChatWidget() {
       const decoder = new TextDecoder();
       let assistantText = "";
 
-      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      let firstChunk = true;
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         assistantText += decoder.decode(value);
-        setMessages((prev) => {
-          const copy = [...prev];
-          copy[copy.length - 1] = { role: "assistant", content: assistantText };
-          return copy;
-        });
+        if (firstChunk) {
+          firstChunk = false;
+          setLoading(false);
+          setMessages((prev) => [...prev, { role: "assistant", content: assistantText }]);
+        } else {
+          setMessages((prev) => {
+            const copy = [...prev];
+            copy[copy.length - 1] = { role: "assistant", content: assistantText };
+            return copy;
+          });
+        }
       }
     } catch {
       setMessages((prev) => [
@@ -96,10 +103,29 @@ export default function ChatWidget() {
                       : "bg-gray-100 text-gray-800 rounded-bl-sm"
                   }`}
                 >
-                  {m.content || <span className="opacity-40 italic">typing…</span>}
+                  {m.role === "assistant" ? (
+                    m.content
+                      ? <ReactMarkdown
+                          components={{
+                            // eslint-disable-next-line @next/next/no-img-element
+                            img: ({src, alt}: any) => <img src={src} alt={alt} className="rounded-lg mt-2 max-w-full" />,
+                            a: ({href, children}: any) => <a href={href} target="_blank" rel="noreferrer" className="underline text-blue-500">{children}</a>
+                          }}
+                        >{m.content}</ReactMarkdown>
+                      : <span className="opacity-40 italic">typing…</span>
+                  ) : m.content}
                 </div>
               </div>
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 text-gray-800 rounded-2xl rounded-bl-sm px-4 py-3 text-sm flex items-center gap-1">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0ms]" />
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                </div>
+              </div>
+            )}
             <div ref={bottomRef} />
           </div>
 

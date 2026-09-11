@@ -17,6 +17,7 @@
     "pdf-parse": "^2.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
     "styled-components": "^6.1.0",
     "vectra": "^0.15.0",
     "zustand": "^4.4.0"
