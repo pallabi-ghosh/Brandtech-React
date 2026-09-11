@@ -1,5 +1,6 @@
 "use client";
 import ReactMarkdown from "react-markdown";
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 interface Message {
@@ -107,8 +108,17 @@ export default function ChatWidget() {
                     m.content
                       ? <ReactMarkdown
                           components={{
-                            // eslint-disable-next-line @next/next/no-img-element
-                            img: ({src, alt}: any) => <img src={src} alt={alt} className="rounded-lg mt-2 max-w-full" />,
+                            img: ({src, alt}: any) => src ? (
+                              <Image
+                                src={src}
+                                alt={alt || "Product image"}
+                                width={256}
+                                height={256}
+                                loading="lazy"
+                                sizes="(max-width: 640px) 80vw, 256px"
+                                className="rounded-lg mt-2 max-w-full h-auto"
+                              />
+                            ) : null,
                             a: ({href, children}: any) => <a href={href} target="_blank" rel="noreferrer" className="underline text-blue-500">{children}</a>
                           }}
                         >{m.content}</ReactMarkdown>

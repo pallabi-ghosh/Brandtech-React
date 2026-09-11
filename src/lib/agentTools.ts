@@ -4,6 +4,8 @@ import ollama from 'ollama';
 import productsData from '@/data/products.json';
 
 const INDEX_DIR = path.join(process.cwd(), 'rag_index');
+const FAQ_CACHE_TTL_MS = 5 * 60 * 1000;
+const faqCache = new Map<string, { expiresAt: number; result: string }>();
 
 // ── Tool definitions (sent to Ollama so it knows what it can call) ──────────
 
@@ -62,12 +64,20 @@ export const TOOLS = [
 // ── Tool implementations ────────────────────────────────────────────────────
 
 export async function searchFAQ({ query }: { query: string }): Promise<string> {
+  const cacheKey = query.trim().toLowerCase();
+  const cached = faqCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) return cached.result;
+  faqCache.delete(cacheKey);
+
   try {
     const index = new LocalIndex(INDEX_DIR);
     const embRes = await ollama.embed({ model: 'nomic-embed-text', input: query });
     const results = await index.queryItems(embRes.embeddings[0], query, 4);
-    if (!results.length) return 'No relevant FAQ entries found.';
-    return results.map((r: any) => r.item.metadata.text).join('\n\n');
+    const result = results.length
+      ? results.map((r: any) => r.item.metadata.text).join('\n\n')
+      : 'No relevant FAQ entries found.';
+    faqCache.set(cacheKey, { expiresAt: Date.now() + FAQ_CACHE_TTL_MS, result });
+    return result;
   } catch (e) {
     return `FAQ search failed: ${e}`;
   }
